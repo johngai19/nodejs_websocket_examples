@@ -21,6 +21,7 @@ socket.on("hello", (message) => {
 
 socket.on('end',(message)=>{
     console.log(`received: ${JSON.stringify(message)}`);
+    //comment the setTimeout function if you want to test the auto reconnection function
     setTimeout(()=>{
         socket.close();
         process.exit(0);

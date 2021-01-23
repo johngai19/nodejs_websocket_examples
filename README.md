@@ -33,11 +33,11 @@ The examples are used to illustrate implementations of websocket, thus no comple
 - Both server and client print the connect and disconnect status change in the console.
 - Both server and client print error messages in the console.
 
-## 3. Example Notes
+## 3. Examples
 
 ### 3.1 nodejs ws example
 
-This example contains WebSocket server and client example implemented with nodejs. The server folder contains a normal server ,install and run `npm run start` to start it.
+This example contains WebSocket server and client example implemented with nodejs. The server folder contains a normal server ,install and run `npm run start` to start it. There is another `ws` server wrapped in a `httpServer` in the server folder named `server2.ts`, run `npm run start2` to start it, to make the example simple, the two servers run on the same port `18000`
 
 `client` folder contains:
 - A pure brawser client `client.html`, open with a brawser to start
@@ -70,14 +70,42 @@ Besides, the `message` in the two protocols are also different, in the `ws` libr
    data: '{"event":"end","data":"response: 0.3416359669492526"}'
   }
 ```
+### 3.2 nodejs socketio example
+
+This example contains `socket.io` server and client implemented with `nodejs`. Install and `npm run start` in server and client folder to start each.  There is another `socket.io` server wrapped in a `httpServer` in the server folder named `server2.ts`, run `npm run start2` to start it, to make the example simple, the two servers run on the same port `18000`
+
+There is also a `index.html` file which implemented a brawser client:
+- As socket.io is not compatible with native WebSocket, there is a `socket.io.js` file (a `socket.io.js.map` may also needed, both files can be found on `socket.io` library `client-dist` folder) which is replied by the html file. 
+- Using the obsolete `socket.io.js v2` file to connect `v3` server may cause `400 error`.
+- As `socket.io v3` uses `CORS`, simply open the `index.html` file in a brawser cannot visit the server. We installed `http-server` here (which uses index.html as default page), and config the `CORS` option in the server (see below), run `npm run startweb` and visit `http://localhost:8081` in a brawser to connect to the server.
+
+**NOTICE：**
+
+This repository uses `socket.io v3` and not compatible with `socket.io`. See [Socket.io Document][8] for the detailed differences between the two version. Some import feature are as follows:
+
+- As `socket.io v3 ` is rewritten by `TypeScript`, there is no need to import `@types/socket.io` or `@types/socket.io-client`library to use `socket.io` in `TypeSctipt`, import the above libraries in your code may cause mistake.
+- `CORS` needs to be explicitly announced as follows：
+```typescript
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "https://example.com",
+    methods: ["GET", "POST"]
+  }
+});
+```
+- `socket.io` support autoreconnection mechanism which is enabled by default, if you want to test the function, just comment the `setTimeout` function in client, stop and start the server again, the client will reconnect to the server automatically.
+- `socket.io` support message acknowledgement mechanism, the `response` event in this example added it, the server will give an acknowledgement message through callback function when it receives a response message.
+- The content of `socket.io` event are highly customised ,you need to decide and encode/decode the content and avoid possible mistakes.
 
 ## References
-- [HTML Living Standard][1]
-- [Official WebSocket Protocal in MDN][2]
-- [socket.io library][4]
-- [websocket library][5]
-- [isomorphic-ws library][6]
-- [socket.io-client library][7]
+1.  [HTML Living Standard][1]
+2. [Official WebSocket Protocal in MDN][2]
+3. [ws library][3]
+4. [socket.io library][4]
+5. [websocket library][5]
+6. [isomorphic-ws library][6]
+7. [socket.io-client library][7]
+8. [socket.io website][8
 
 [1]: <https://html.spec.whatwg.org/multipage/web-sockets.html#handler-websocket-onmessage> "HTML Living Standard"
 
@@ -92,3 +120,5 @@ Besides, the `message` in the two protocols are also different, in the `ws` libr
 [6]: <https://github.com/heineiuo/isomorphic-ws> "isomorphic-ws library"
 
 [7]: <https://github.com/socketio/socket.io-client> "socket.io-client library"
+
+[8]: <https://socket.io/docs/v3/migrating-from-2-x-to-3-0/#The-Socket-IO-codebase-has-been-rewritten-to-TypeScript> "socket.io website"

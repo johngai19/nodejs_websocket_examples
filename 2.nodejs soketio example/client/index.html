@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-cmn-Hans">
 
 <head>
     <meta charset="utf-8">
@@ -23,6 +23,7 @@
             background: red;
         }
     </style>
+    <script src="socket.io.js"></script>
 </head>
 
 <body>
@@ -34,38 +35,39 @@
     <div id="light" class="yellow"> </div>
     <h4 id="randomNumber">No random number received: </h4>
     <script>
-        const ws = new WebSocket(`ws://localhost:18000`);
+        const socket =io('ws://localhost:18000');
+        console.log(socket);
+
         const rn = document.getElementById('randomNumber');
         const sv = document.getElementById('server');
         const lt = document.getElementById('light');
 
-        ws.onopen = () => {
+        socket.on('connect', function() {
             sv.textContent = 'Server Status: connected';
             lt.style.background = 'green';
-            console.log('CONNECTED');
-        };
-
-        ws.onclose = () => {
-            console.log('DISCONNECTED')
-        };
-
-        ws.onmessage = function (event) {
-            console.log(event);
-            const data = JSON.parse(event.data);
-            if (data.event === 'hello') {
-                let response = JSON.stringify({ event: 'response', data: 'response:' + Math.random() });
-                console.log(`sending response ${response}`);
-                ws.send(response);
-            }
-            if (data.event === 'end') {
-                rn.textContent = "The random number received is " + data.data.slice(9);
+            console.log('Connected');
+        });
+      socket.on('hello', function(data) {
+        console.log('event', data);
+        let response = { event: 'response', data: 'response:' + Math.random() };
+        console.log(`sending response ${JSON.stringify(response)}`);
+        socket.emit('response',response,(res)=>{
+        console.log(`response acknowledgment ${res.status}`);
+    });
+      });
+      socket.on('end', function(data) {
+        console.log('event', data);
+        rn.textContent = "The random number received is " + data.data.slice(9);
                 setTimeout(() => {
-                    ws.close();
+                    socket.close();
                     sv.textContent = 'Server Status: disconnected';
                     lt.style.background = 'red';
                 }, 3000);
-            }
-        }
+      });
+      socket.on('disconnect', function() {
+        console.log('Disconnected');
+      });
+
     </script>
 </body>
 

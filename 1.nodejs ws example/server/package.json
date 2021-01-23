@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc server.ts && node server.js"
+    "start": "tsc server.ts && node server.js",
+    "start2": "tsc server2.ts && node server2.js"
   },
   "author": "weizy0219",
   "license": "MIT",

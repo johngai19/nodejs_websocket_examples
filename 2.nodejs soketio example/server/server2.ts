@@ -1,7 +1,9 @@
+import {createServer} from 'http';
 import { Server, Socket } from 'socket.io';
 import IWsevent,{helloWs,endWs} from './wseventdata';
 
-const io = new Server(18000,{
+const httpServer=createServer();
+const io = new Server(httpServer,{
         cors: {
           origin: "http://localhost:8081",
           credentials: true,
@@ -26,3 +28,5 @@ io.on("connection", (socket: Socket) => {
     });
 
 });
+
+httpServer.listen(18000);
