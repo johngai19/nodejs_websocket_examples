@@ -1,5 +1,5 @@
 import * as WebSocket from 'isomorphic-ws';
-import IWsevent,{resWs} from './wseventdata';
+import IWsevent from './wseventdata';
 
 const ws = new WebSocket('ws://localhost:18000');
 let socketData:IWsevent={'event':'null','data':'null'};
@@ -29,8 +29,7 @@ ws.onmessage=(message)=>{
         socketData=JSON.parse(message.data);
     }
     if(socketData.event==='hello'){
-        resWs.data='response: '+Math.random();
-        ws.send(JSON.stringify(resWs), err =>{
+        ws.send(JSON.stringify({ 'event': 'response', 'data': 'response: '+Math.random()}), err =>{
             if(err){
                 console.log(err)
             }

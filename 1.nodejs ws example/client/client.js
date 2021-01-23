@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var WebSocket = require("ws");
+var wseventdata_1 = require("./wseventdata");
 var ws = new WebSocket('ws://localhost:18000');
 var socketData = { 'event': 'null', 'data': 'null' };
 ws.on('open', function () {
@@ -15,7 +16,8 @@ ws.on('message', function (message) {
         socketData = JSON.parse(message);
     }
     if (socketData.event === 'hello') {
-        ws.send(JSON.stringify({ 'event': 'response', 'data': 'response: ' + Math.random() }), function (err) {
+        wseventdata_1.resWs.data = 'response: ' + Math.random();
+        ws.send(JSON.stringify(wseventdata_1.resWs), function (err) {
             if (err) {
                 console.log(err);
             }

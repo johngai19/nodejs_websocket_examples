@@ -12,7 +12,7 @@ Each example folder contains independent example, with subfolders to distinguish
 
 WebSocket is [*"To enable web applications to maintain bidirectional communications with server-side processes"*][1], there are [official implementation][2] and unofficial ones.
 
-The top three popular websocket libraries on npmjs are [ws][3]、[socket.io][4]、and [websocket][5]. We use both ws and socket.io in this repository because they each has there advantages and disadvantages. 
+The top three popular websocket libraries on npmjs are [ws][3]、[socket.io][4]、and [websocket][5]( There are also other implementations like `WebSocket-Node`or `µWebSockets`). We use both ws and socket.io in this repository because they each has there advantages and disadvantages. 
 
 The `ws` library is the most popular one and it is fully compatible with the `Official WebSocket` protocal, however, if you want to use `ws` as client in nodejs, a wrapper like [isomorphic-ws][6] is necessary, which is also used in the examples.
 

@@ -1,5 +1,5 @@
 import * as WebSocket from 'ws';
-import IWsevent from './wseventdata';
+import IWsevent,{resWs} from './wseventdata';
 
 const ws = new WebSocket('ws://localhost:18000');
 let socketData:IWsevent={'event':'null','data':'null'};
@@ -19,7 +19,8 @@ ws.on('message', (message)=>{
         socketData=JSON.parse(message);
     }
     if(socketData.event==='hello'){
-        ws.send(JSON.stringify({ 'event': 'response', 'data': 'response: '+Math.random()}), err =>{
+        resWs.data='response: '+Math.random();
+        ws.send(JSON.stringify(resWs), err =>{
             if(err){
                 console.log(err)
             }

@@ -1,0 +1,19 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc client.ts && node client.js",
+    "start2": "tsc client2.ts && node client2.js"
+  },
+  "author": "weizy0219",
+  "license": "MIT",
+  "dependencies": {
+    "socket.io-client": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.22"
+  }
+}

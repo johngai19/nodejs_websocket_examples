@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <title>WebSocket Client</title>
+    <style type="text/css">
+        #light {
+            width: 50px;
+            height: 50px;
+            animation: hld 6s ease infinite
+        }
+
+        .green {
+            background: green;
+        }
+
+        .yellow {
+            background: yellow;
+        }
+
+        .red {
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>WebSocket Client Example</h1>
+    <h3>Open the brawser console to see the result</h3>
+    <h3>Ctrl+Shif+I in chrome or firefox</h3>
+    <h4>Every time you refress the page, the client will connect server again,and the random value will change</h4>
+    <h4 id="server">Server Status</h4>
+    <div id="light" class="yellow"> </div>
+    <h4 id="randomNumber">No random number received: </h4>
+    <script>
+        const ws = new WebSocket(`ws://localhost:18000`);
+        const rn = document.getElementById('randomNumber');
+        const sv = document.getElementById('server');
+        const lt = document.getElementById('light');
+
+        ws.onopen = () => {
+            sv.textContent = 'Server Status: connected';
+            lt.style.background = 'green';
+            console.log('CONNECTED');
+        };
+
+        ws.onclose = () => {
+            console.log('DISCONNECTED')
+        };
+
+        ws.onmessage = function (event) {
+            console.log(event);
+            const data = JSON.parse(event.data);
+            if (data.event === 'hello') {
+                let response = JSON.stringify({ event: 'response', data: 'response:' + Math.random() });
+                console.log(`sending response ${response}`);
+                ws.send(response);
+            }
+            if (data.event === 'end') {
+                rn.textContent = "The random number received is " + data.data.slice(9);
+                setTimeout(() => {
+                    ws.close();
+                    sv.textContent = 'Server Status: disconnected';
+                    lt.style.background = 'red';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+
+</html>

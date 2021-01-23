@@ -17,7 +17,8 @@ server.on('connection', function (ws) {
             socketData = JSON.parse(message);
         }
         if (socketData.event === 'response') {
-            ws.send(JSON.stringify({ 'event': 'end', 'data': socketData.data }), function (err) {
+            wseventdata_1.endWs.data = socketData.data;
+            ws.send(JSON.stringify(wseventdata_1.endWs), function (err) {
                 if (err) {
                     console.log(err);
                 }

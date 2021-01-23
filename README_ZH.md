@@ -13,7 +13,7 @@
 
 WebSocket是用于[*"在网络应用中保持和服务器端进程双边通讯的"*][1],这一功能和传统的`http`协议仅能由客户端发起请求服务器进行响应有所区别。 在实现上，websocket协议分为 [官方实现][2] 和非官方实现
 
-`npmjs`上3个最流行的`websocket`库分别是 [ws][3]、[socket.io][4]、and [websocket][5]. 我们在这里使用了前两个，因为他们各自有其优点和不足。 
+`npmjs`上3个最流行的`websocket`库分别是 [ws][3]、[socket.io][4]、and [websocket][5](其他常见的`websocket`库还有`WebSocket-Node`、`µWebSockets`等). 我们在这里使用了前两个，因为他们各自有其优点和不足。 
 
  `ws`库是最流行的`websoket`库，它完全支持官方协议。在浏览器中可以不用引入额外的包，直接用浏览器原生`Websocket`实现功能，然而，如果你要在`nodejs`上使用`ws`作为客户端，你还需要一个类似像我们这里用的 [isomorphic-ws][6] 的包装器。
 
@@ -70,14 +70,35 @@ ws.onmessage=(message)=>{
   }
 ```
 
+### 3.2 nodejs socketio example
+
+本文件夹包括使用纯`nodejs`实现的`socket.io`服务器和客户端示例。
+其中`server`文件夹包括了服务器文件，安装并通过`npm run start`即可编译启动。
+
+**说明：**
+本仓库`socket.io v3`，`socket.io`从版本2到3的升级过程中有很大变动，因此本仓库示例并不适用于`socket.io v2`版本。参考[官方文档][8]跟本仓库示例有关的几点说明如下。
+
+- 由于`socket.io v3`代码库使用`TypeScript`重写，因此在使用`TypeSctipt`时不需要再引入`@types/socket.io`或`@types/socket.io-client`库，如果继续引入可能会在编译时出错。
+- 在版本3中，跨域请求`CORS`需要在新建服务器时明确声明，例如：
+```typescript
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "https://example.com",
+    methods: ["GET", "POST"]
+  }
+});
+```
+
 
 ## 参考资料
-- [HTML在线标准][1]
-- [官方WebSocket协议][2]
-- [socket.io 库][4]
-- [websocket 库][5]
-- [isomorphic-ws 库][6]
-- [socket.io-client 库][7]
+1. [HTML在线标准][1]
+2. [官方WebSocket协议][2]
+3. [ws库][3]
+4. [socket.io 库][4]
+5. [websocket 库][5]
+6. [isomorphic-ws 库][6]
+7. [socket.io-client 库][7]
+8. [socket.io website][8]
 
 [1]: <https://html.spec.whatwg.org/multipage/web-sockets.html#handler-websocket-onmessage> "HTML Living Standard"
 
@@ -93,3 +114,4 @@ ws.onmessage=(message)=>{
 
 [7]: <https://github.com/socketio/socket.io-client> "socket.io-client library"
 
+[8]: <https://socket.io/docs/v3/migrating-from-2-x-to-3-0/#The-Socket-IO-codebase-has-been-rewritten-to-TypeScript> "socket.io website"
