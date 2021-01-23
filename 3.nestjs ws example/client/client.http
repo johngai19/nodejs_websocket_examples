@@ -1,0 +1,7 @@
+@baseUrl=http://localhost:3001
+
+###
+GET {{baseUrl}}/ws-client/getdata
+
+###
+Get {{baseUrl}}/ws-client/sendTerminate

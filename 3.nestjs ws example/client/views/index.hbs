@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>WebSocket Client</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <h1>WebSocket Client Example</h1>
+  <h3>Open the brawser console to see the result</h3>
+  <h3>Ctrl+Shif+I in chrome or firefox</h3>
+  <h4>Every time you refress the page, the client will connect server again,and the random value will change</h4>
+  <h4 id="server">Server Status:{{ServerStatus}}</h4>
+  <div id="light" class={{"lightColor"}}> </div>
+  <h4 id="randomNumber">No random number received: {{receivedData}}</h4>
+  <div>
+    <button class="swd-button" onclick="updateData()">Refresh Data</button>
+    <button class="swd-button" onclick="terminateConnection()">Terminate Connection(will stop client app)</button>
+  </div>
+</body>
+<script>
+  const ws = new WebSocket(`ws://localhost:18000`);
+  const rn = document.getElementById('randomNumber');
+  const sv = document.getElementById('server');
+  const lt = document.getElementById('light');
+  function updateData(){
+  axios.get('http://localhost:3001/ws-client/getdata')
+    .then(function (response) {
+      lt.className = "green";
+      sv.textContent = 'Server Status: CONNECTED';
+      rn.textContent = 'random number received:' + response.data;
+      console.log(response.data);
+    }).catch(function (error) {
+      lt.className = "red";
+      sv.textContent = 'Server Status: DISCONNECTED';
+      rn.textContent = "No random number received";
+      console.log(error);
+    });
+  }
+  function terminateConnection(){
+    axios.get('http://localhost:3001/ws-client/sendTerminate')
+    .then(function (response) {
+      lt.className = "red";
+      sv.textContent = 'Server Status: DISCONNECTED';
+      rn.textContent = 'No random number received';
+      console.log(response.data);
+    }).catch(function (error) {
+      lt.className = "red";
+      sv.textContent = 'Server Status: DISCONNECTED';
+      rn.textContent = "No random number received";
+      console.log(error);
+    });
+  }
+  updateData();
+</script>
+
+</html>

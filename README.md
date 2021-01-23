@@ -37,7 +37,7 @@ The examples are used to illustrate implementations of websocket, thus no comple
 
 ### 3.1 nodejs ws example
 
-This example contains WebSocket server and client example implemented with nodejs. The server folder contains a normal server ,install and run `npm run start` to start it. There is another `ws` server wrapped in a `httpServer` in the server folder named `server2.ts`, run `npm run start2` to start it, to make the example simple, the two servers run on the same port `18000`
+This example contains WebSocket server and client example implemented with nodejs. The server folder contains a normal server ,install and run `npm run start` to start it. There is another `ws` server wrapped in a `httpServer` in the server folder named `server2.ts`, run `npm run start2` to start it, to make the example simple, the two servers run on the same port `18000`(the http server listens port 3000).
 
 `client` folder contains:
 - A pure brawser client `client.html`, open with a brawser to start

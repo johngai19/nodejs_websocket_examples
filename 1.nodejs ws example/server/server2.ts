@@ -4,7 +4,7 @@ import IWsevent from './wseventdata';
 import {helloWs,endWs} from './wseventdata';
 
 const httpServer=createServer();
-const server = new WebSocket.Server({server:httpServer});
+const server = new WebSocket.Server({port:18000,server:httpServer});
 let socketData:IWsevent={'event':'null','data':'null'};
 
 server.on('connection', (ws)=> {
@@ -33,4 +33,4 @@ server.on('connection', (ws)=> {
     });
 });
 
-httpServer.listen(18000);
+httpServer.listen(3000);

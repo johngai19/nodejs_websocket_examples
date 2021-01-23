@@ -39,7 +39,7 @@ WebSocket是用于[*"在网络应用中保持和服务器端进程双边通讯�
 ### 3.1 nodejs ws example
 
 本文件夹包括使用纯`nodejs`实现的`WebSocket`服务器和客户端示例。
-其中`server`文件夹包括了服务器文件，安装并通过`npm run start`即可编译启动。`server`文件夹下还包括了一个运行在`http`服务器上的`ws` 服务器 `server2.ts`,通过 `npm run start2` 启动，为简化示例，两个服务器均使用 `18000`端口.
+其中`server`文件夹包括了服务器文件，安装并通过`npm run start`即可编译启动。`server`文件夹下还包括了一个运行在`http`服务器上的`ws` 服务器 `server2.ts`,通过 `npm run start2` 启动，为简化示例，两个服务器均使用 `18000`端口(http服务器监听3000端口).
 
 `client`文件夹包括了：
 - 一个纯浏览器的客户端实现`client.html`，使用浏览器打开即可
