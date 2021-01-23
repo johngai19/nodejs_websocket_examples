@@ -97,6 +97,26 @@ const io = require("socket.io")(httpServer, {
 - `socket.io` support message acknowledgement mechanism, the `response` event in this example added it, the server will give an acknowledgement message through callback function when it receives a response message.
 - The content of `socket.io` event are highly customised ,you need to decide and encode/decode the content and avoid possible mistakes.
 
+### 3.3 nestjs ws example
+
+This example contains both WebSocket server and client implementation with popular `Nestjs` framework using `ws` library. As Nestjs is a server framework itself, a `html` file is added with nestjs serve Static function and MVC service. the communication interfaces in this example is similar to  `1. nodejs ws example`, so the servers and clients can connect with each other. However, for test purpose, the functions a modifed in this example so as to keep the client keep connected with the server until there is an order to terminate：
+- The server will not send an `end` message when it received a `response` message, instead, it sends a same `response` message to the client.
+- A `response` message listener is added to the client, it will print the message it received.
+- A `terminate` message will be send from the client trigged by a http request `sendTerminate`, the server will send the old `end` message when it received the `terminate` message.
+
+The client httpServer works on port 3001, two apis were added to update data and terminate connection
+-`Get http://localhost:3001/ws-client/getdata`  to send `response` and update the data it received.
+-`Get http://localhost:3001/ws-client/sendTerminate` 用to send `terminate`message，**This will also terminate the client app, you need restart it again**
+
+A `client.http` file is created in client folder to test http requests, which can be used by `vscode` plugin `REST Client`.
+
+no `cors` configuration when use `ws` library.
+
+**To Use:**
+- In the `server` and `client` run `npm run start` to start them and see the result.
+- In a brawser visit `http://localhost:3001`, to see and update data in console and in the page.
+- To work with `1. nodejs ws example` servers and clients, you need to pay attention to the API difference.
+
 ## References
 1.  [HTML Living Standard][1]
 2. [Official WebSocket Protocal in MDN][2]

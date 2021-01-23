@@ -98,6 +98,27 @@ const io = require("socket.io")(httpServer, {
 - `socket.io`支持消息确认机制，本示例的`response`消息增加了消息确认机制，服务器在收到消息后会通过回调函数进行确认。
 - `socket.io`消息的内容类型可兼容`string`或`JSON`等格式，用户需要在编程时自行决定数据类型并尽心解析。
 
+### 3.3 nestjs ws example
+
+本文件夹基于`ws`库使用流行的`nestjs`框架分别实现了服务器和客户端的`WebSocket`服务，由于`Nestjs`是一个服务器框架，因此，在客户端部分，又通过`nestjs`内置的静态文件和`mvc`框架服务设计了一个`html`网页以便进行功能测试。本文件夹案例和 `1. nodejs ws example`文件夹中的案例接口设计基本相同，可以互相连接，但本案例为了丰富功能测试，在功能上进行了以下修改和补充：
+- 服务器在收到客户端的`response`消息后，并不会立即返回`end`消息，而是同样返回一个`response`消息，以避免客户端过早断开连接影响测试。
+- 客户端新增了一个`response`消息响应，将收到的消息进行打印显示
+- 客户端新增了一个`terminate`消息，需要手动触发以发送，服务器收到`terminate`消息后，发送`end`消息，客户端再断开连接
+
+为了测试客户端的`http`相应功能，在客户端新增了两个`api`分别为，为了避免客户端和服务器http端口冲突，修改客户端端口为3001：
+-`Get http://localhost:3001/ws-client/getdata` 用于发送并接受`response`消息，通过随机数来更新数据
+-`Get http://localhost:3001/ws-client/sendTerminate` 用于发送`terminate`消息以断开连接，**该命令会停止客户端程序运行**
+
+在客户端根目录下新建了`client.http`文件，该文件可以通过`vscode`的`REST Client`插件运行，用于进行api功能调试。
+
+经过测试，`ws`库可以不需要`http`服务器启用`cors`功能。
+
+**使用步骤：**
+- 分别在`server`和`client`文件夹下运行`npm run start`即可启动服务器和客户端，可以看到websocket通讯。
+- 在浏览器中打开`http://localhost:3001`可以在`console`中和网页中看到数据，通过刷新按钮可以刷新数据。
+- 本示例和 `1. nodejs ws example`中的示例可以互通互联，但由于`api`不同，使用时应注意区别。
+
+
 
 ## 参考资料
 1. [HTML在线标准][1]
