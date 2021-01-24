@@ -1,0 +1,36 @@
+h1 {
+  color: #081808;
+}
+h2 {
+  color: rgb(255, 0, 0);
+}
+
+#light {
+  width: 50px;
+  height: 50px;
+  animation: hld 6s ease infinite;
+}
+
+.green {
+  background: green;
+}
+
+.yellow {
+  background: yellow;
+}
+
+.red {
+  background: red;
+}
+
+.swd-button {
+  background: #067296 linear-gradient(to bottom, transparent, #009bcf);
+  border: 1px solid white;
+  border-radius: 5px;
+  color: white;
+  display: inline-block;
+  font: bold 12px Arial, Helvetica, sans-serif;
+  padding: 10px 15px;
+  text-decoration: none;
+  text-transform: uppercase;
+}

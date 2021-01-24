@@ -118,8 +118,16 @@ const io = require("socket.io")(httpServer, {
 - 在浏览器中打开`http://localhost:3001`可以在`console`中和网页中看到数据，通过刷新按钮可以刷新数据。
 - 本示例和 `1. nodejs ws example`中的示例可以互通互联，但由于`api`不同，使用时应注意区别。
 
+### 3.4 nestjs socket io example
 
+本文件夹基于`socket.io`库使用流行的`nestjs`框架分别实现了服务器和客户端的`WebSocket`服务， API接口和示例3完全相同，但有一些 **重点注意事项**:
 
+- 由于`socket.io`的3.x和2.x版本不兼容，他们无法协同工作，也就是说服务器和客户端要工作在同一个大版本下。本案例使用版本3.
+- `Nestjs` 内置的`socket.io`库`@nestjs/platform-io`是基于`socket.io`版本2，与版本3的客户端不兼容。
+- `Nestjs` 作者答应在`nestjs 8`中升级 `socket-io`版本，目前，如果要像本示例一样使用`socket.io v3`，可以参考[nestjs issue 5676][9]问题中给出的临时策略, 用`socket-io.adapter`而不是官方的适配器。(*要删除cookie项下面的`name`一行*) .
+- 当然，将客户端降级到2.x版本可能也能工作，但本案例并未尝试此种做法。
+- 到目前为止，客户端和服务器可以正常连接工作，但是如果使用案例2中的客户端，是连接不上本案例的服务器的，这可能是由`@WebSocketGateway()`装饰器造成的，必须把装饰器的`port`参数留空，或者配置为和服务器`http`端口一致，才可以正常访问，如果两者不一致，即使配置了`cors`仍然是无法通过案例2中的客户端访问本案例中的服务器的。
+ 
 ## 参考资料
 1. [HTML在线标准][1]
 2. [官方WebSocket协议][2]
@@ -128,7 +136,8 @@ const io = require("socket.io")(httpServer, {
 5. [websocket 库][5]
 6. [isomorphic-ws 库][6]
 7. [socket.io-client 库][7]
-8. [socket.io 网站][8]
+8. [socket.io 网站版本迁移说明][8]
+9. [Nestjs issue 5676][9]
 
 [1]: <https://html.spec.whatwg.org/multipage/web-sockets.html#handler-websocket-onmessage> "HTML Living Standard"
 
@@ -145,3 +154,5 @@ const io = require("socket.io")(httpServer, {
 [7]: <https://github.com/socketio/socket.io-client> "socket.io-client library"
 
 [8]: <https://socket.io/docs/v3/migrating-from-2-x-to-3-0/#The-Socket-IO-codebase-has-been-rewritten-to-TypeScript> "socket.io website"
+
+[9]: <https://github.com/nestjs/nest/issues/5676> "Nestjs issue 5676"

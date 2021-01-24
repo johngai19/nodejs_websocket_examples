@@ -4,7 +4,7 @@ var http_1 = require("http");
 var socket_io_1 = require("socket.io");
 var wseventdata_1 = require("./wseventdata");
 var httpServer = http_1.createServer();
-var io = new socket_io_1.Server(httpServer, {
+var io = new socket_io_1.Server(18000，httpServer, {
     cors: {
         origin: "http://localhost:8081",
         credentials: true,

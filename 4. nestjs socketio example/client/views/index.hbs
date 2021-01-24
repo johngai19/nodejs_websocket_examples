@@ -6,6 +6,7 @@
   <title>WebSocket Client</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <script src="axios.min.js"></script>
+
   {{!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> --}}
 </head>
 
@@ -23,12 +24,11 @@
   </div>
 </body>
 <script>
-  const ws = new WebSocket(`ws://localhost:18000`);
   const rn = document.getElementById('randomNumber');
   const sv = document.getElementById('server');
   const lt = document.getElementById('light');
   function updateData(){
-  axios.get('http://localhost:3001/ws-client/getdata')
+  axios.get('http://localhost:3001/sk-client/getdata')
     .then(function (response) {
       lt.className = "green";
       sv.textContent = 'Server Status: CONNECTED';
@@ -42,7 +42,7 @@
     });
   }
   function terminateConnection(){
-    axios.get('http://localhost:3001/ws-client/sendTerminate')
+    axios.get('http://localhost:3001/sk-client/sendTerminate')
     .then(function (response) {
       lt.className = "red";
       sv.textContent = 'Server Status: DISCONNECTED';

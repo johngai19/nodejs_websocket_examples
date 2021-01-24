@@ -117,6 +117,15 @@ no `cors` configuration when use `ws` library.
 - In a brawser visit `http://localhost:3001`, to see and update data in console and in the page.
 - To work with `1. nodejs ws example` servers and clients, you need to pay attention to the API difference.
 
+### 3.4 nestjs socket io example
+
+This example contains both WebSocket server and client implementation with popular `Nestjs` framework using `socketio` library. The program structure and API interface are exactly the same as example 3. Except for some **important NOTES**:
+- As `socket.io` version 3.x and 2.x are incompatible, they cannot work together, which means the server and client shall of the same major version. 
+- `Nestjs` built-in `socket.io` library `@nestjs/platform-io` was written with socket.io version 2, so it is incampatible with a version 3 client. 
+- The `Nestjs` author promised to update `socket-io` on nestjs 8 ,however, if you want to use `socket.io v3` in nestjs, a temporary approach is introduced in [nestjs issue 5676][9], use the `socket-io.adapter` in the issue (*the `name` line under cookie shall be removed*) instead of the official one. This is the way we used here.
+- You may also downgrade the client version to v2.x ,however, we did not try that way here.
+- SO FAR, the server and client works well in this example, but if you want the server in this example works together with the client in example 2, there is still a problem, perhaps due to the `@WebSocketGateway()` decorator mechanism, you will not visit the server if the `port` parameter (for example `@WebSocketGateway(18000)`) is different from the server http port (for example app.listen(3000)) even if cors is enabled. You shold leave the  `@WebSocketGateway()` decorator blank and use the client to visit the same http port.
+
 ## References
 1.  [HTML Living Standard][1]
 2. [Official WebSocket Protocal in MDN][2]
@@ -125,7 +134,8 @@ no `cors` configuration when use `ws` library.
 5. [websocket library][5]
 6. [isomorphic-ws library][6]
 7. [socket.io-client library][7]
-8. [socket.io website][8
+8. [socket.io migrating guide][8]
+9. [nestjs issue 5676][9]
 
 [1]: <https://html.spec.whatwg.org/multipage/web-sockets.html#handler-websocket-onmessage> "HTML Living Standard"
 
@@ -141,4 +151,6 @@ no `cors` configuration when use `ws` library.
 
 [7]: <https://github.com/socketio/socket.io-client> "socket.io-client library"
 
-[8]: <https://socket.io/docs/v3/migrating-from-2-x-to-3-0/#The-Socket-IO-codebase-has-been-rewritten-to-TypeScript> "socket.io website"
+[8]: <https://socket.io/docs/v3/migrating-from-2-x-to-3-0/#The-Socket-IO-codebase-has-been-rewritten-to-TypeScript> "socket.io website migrating guide"
+
+[9]: <https://github.com/nestjs/nest/issues/5676> "Nestjs issue 5676"
